@@ -43,21 +43,9 @@ public class UIManager : MonoBehaviour
 
     }
 
-    private void Start()
-    {
-        googleAd = FindObjectOfType<GoogleAd>();
-    }
-
     private void Awake()
     {
-        if (AdRemove == true)
-        {
-            removeAd.SetActive(false);
-        }
-        else
-        {
-            removeAd.SetActive(true);
-        }
+        StartCoroutine(HideAd(AdRemove));
         if (instance == null)
         {
             instance = this;
@@ -78,7 +66,26 @@ public class UIManager : MonoBehaviour
     }
 
 
+    private void Start()
+    {
+        googleAd = FindObjectOfType<GoogleAd>();
+    }
 
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        Debug.Log("씬 불러왔을 때!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" + AdRemove);
+        StartCoroutine(HideAd(AdRemove, 0.01f));
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
 
     private void Update()
     {
@@ -99,14 +106,7 @@ public class UIManager : MonoBehaviour
             ++count;
         }
 
-        if (AdRemove == true)
-        {
-            removeAd.SetActive(false);
-        }
-        else
-        {
-            removeAd.SetActive(true);
-        }
+
     }
 
 
@@ -155,10 +155,25 @@ public class UIManager : MonoBehaviour
         SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex);
     }
 
-    public void HideAd(bool remove)
+    //public void AdButton()
+    //{
+    //    if (AdRemove == true)
+    //    {
+    //        btnRemove.gameObject.SetActive(false);
+    //    }
+    //    else
+    //    {
+    //        btnRemove.gameObject.SetActive(true);
+    //    }
+    //}
+
+    public IEnumerator HideAd(bool remove, float sec = 0.1f)
     {
+
+        yield return new WaitForSecondsRealtime(sec);
         if (remove == true)
         {
+            AdRemove = true;
             removeAd.SetActive(false);
         }
         else

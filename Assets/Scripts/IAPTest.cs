@@ -19,7 +19,7 @@ public class IAPTest : MonoBehaviour
     }
     private void Start()
     {
-        LoadData();
+
         this.btnRemove.onPurchaseComplete.AddListener(new UnityAction<Product>((product) =>
         {
             value = UIManager.Instance.AdRemove = true;
@@ -27,6 +27,7 @@ public class IAPTest : MonoBehaviour
             PlayerPrefs.SetInt("Ad", 1);
             
             Debug.LogFormat("[광고 제거] 획득 : ", product.transactionID);
+            StartCoroutine(UIManager.Instance.HideAd(value));
         }));
 
         this.btnRemove.onPurchaseFailed.AddListener(new UnityAction<Product, PurchaseFailureReason>((product, reason) =>
@@ -35,5 +36,11 @@ public class IAPTest : MonoBehaviour
             //UIManager.Instance.HideAd(value);
             Debug.LogFormat("[광고 제거] 실패 : {0} , {1}", product.transactionID, reason);
         }));
+    }
+
+    private void OnEnable()
+    {
+        LoadData();
+
     }
 }

@@ -26,6 +26,7 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
+
         AdjustConfig adjustConfig = new AdjustConfig("zmxu75rywhs0", AdjustEnvironment.Sandbox);
         adjustConfig.setAppSecret(1, 1729091797, 541381912, 256436836, 850404545);
         Adjust.start(adjustConfig);

@@ -7,11 +7,11 @@ public class PooSpawn : MonoBehaviour
 
     public enum diff
     {
-        Easy = 10,
-        EasyNormal = 20,
-        Normal = 30,
-        NormalHard = 40,
-        Hard = 50
+        Easy = 1 * 10,
+        EasyNormal = 2 * 10,
+        Normal = 3 * 10,
+        NormalHard = 4 * 10,
+        Hard = 5 * 10
     }
 
     public enum screen
@@ -28,15 +28,19 @@ public class PooSpawn : MonoBehaviour
     GameManager gameManager;
     PlayerMovement playerMovement;
 
+    public float speed { get; private set; }
+    public float spawnSpeed { get; private set; }
     public float widthSize { get; private set; }
     public float randValue { get; private set; }
     Vector2 spawnPos;
     float yScreenHalfSize;
     float xScreenHalfSize;
 
+    List<Dictionary<string, object>> data;
 
     private void Start()
-    {
+    { 
+
         yScreenHalfSize = Camera.main.orthographicSize;
         xScreenHalfSize = yScreenHalfSize * Camera.main.aspect;
 
@@ -105,28 +109,43 @@ public class PooSpawn : MonoBehaviour
             //            break;
             //    }
             //}
-
+            data = CSVReader.Read("CSV\\level");// CSV값 읽어옴
             switch (different)
             {
                 case diff.Easy:
-                    Spawn(3f);
-                    yield return new WaitForSeconds(2f);
+                    Debug.Log("Now Level : " + data[0]["Level"]);                    // 1
+                    speed = float.Parse(data[0]["PlayerSpeed"].ToString());
+                    spawnSpeed = float.Parse(data[0]["SpawnSpeed"].ToString());
+                    Spawn(speed);
+                    yield return new WaitForSeconds(spawnSpeed);
                     break;
                 case diff.EasyNormal:
-                    Spawn(4f);
-                    yield return new WaitForSeconds(1f);
+                    Debug.Log("Now Level : " + data[1]["Level"]);                    // 2
+                    speed = float.Parse(data[1]["PlayerSpeed"].ToString());
+                    spawnSpeed = float.Parse(data[1]["SpawnSpeed"].ToString());
+                    Spawn(speed);
+                    yield return new WaitForSeconds(spawnSpeed);
                     break;
                 case diff.Normal:
-                    Spawn(5f);
-                    yield return new WaitForSeconds(0.5f);
+                    Debug.Log("Now Level : " + data[2]["Level"]);                    // 3
+                    speed = float.Parse(data[2]["PlayerSpeed"].ToString());
+                    spawnSpeed = float.Parse(data[2]["SpawnSpeed"].ToString());
+                    Spawn(speed);
+                    yield return new WaitForSeconds(spawnSpeed);
                     break;
                 case diff.NormalHard:
-                    Spawn(6f);
-                    yield return new WaitForSeconds(0.3f);
+                    Debug.Log("Now Level : " + data[3]["Level"]);                    // 4
+                    speed = float.Parse(data[3]["PlayerSpeed"].ToString());
+                    spawnSpeed = float.Parse(data[3]["SpawnSpeed"].ToString());
+                    Spawn(speed);
+                    yield return new WaitForSeconds(spawnSpeed);
                     break;
                 case diff.Hard:
-                    Spawn(7f);
-                    yield return new WaitForSeconds(0.1f);
+                    Debug.Log("Now Level : " + data[4]["Level"]);                    // 5
+                    speed = float.Parse(data[4]["PlayerSpeed"].ToString());
+                    spawnSpeed = float.Parse(data[4]["SpawnSpeed"].ToString());
+                    Spawn(speed);
+                    yield return new WaitForSeconds(spawnSpeed);
                     break;
             }
         }
